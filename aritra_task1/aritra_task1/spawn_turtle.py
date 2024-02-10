@@ -49,7 +49,7 @@ class SpawnTurtleNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     spawn_turtle_node = SpawnTurtleNode()
-    rclpy.spin(spawn_turtle_node)
+    rclpy.spin_until_future_complete(spawn_turtle_node, future=None)
     rclpy.shutdown()
 
 if __name__ == '__main__':

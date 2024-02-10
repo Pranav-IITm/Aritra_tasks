@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<robot name="kcs_vessel">
+
+  <!-- Define the hull -->
+  <link name="hull">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- Approximate geometry for hull -->
+        <box size="5 5 1"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <!-- Approximate collision properties for hull -->
+      <geometry>
+        <box size="5 5 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Define the propeller -->
+  <link name="propeller">
+    <visual>
+      <!-- Approximate visual properties for propeller -->
+      <origin xyz="2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.2" length="0.1"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <!-- Approximate collision properties for propeller -->
+      <geometry>
+        <cylinder radius="0.2" length="0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Define the rudder -->
+  <link name="rudder">
+    <visual>
+      <!-- Approximate visual properties for rudder -->
+      <origin xyz="-2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 1 1"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <!-- Approximate collision properties for rudder -->
+      <geometry>
+        <box size="0.2 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Define LiDAR sensor -->
+  <link name="lidar_link">
+    <visual>
+      <origin xyz="0 0 1.5" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <sensor name="lidar_sensor" type="lidar">
+      <origin xyz="0 0 1.5" rpy="0 0 0"/>
+      <visualize>false</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.1</min>
+          <max>100</max>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+    </sensor>
+  </link>
+
+  <!-- Define IMU sensor -->
+  <link name="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <visualize>false</visualize>
+      <update_rate>100</update_rate>
+      <imu>
+        <linear_acceleration>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </linear_acceleration>
+        <angular_velocity>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.001</stddev>
+          </noise>
+        </angular_velocity>
+        <orientation>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.001</stddev>
+          </noise>
+        </orientation>
+      </imu>
+    </sensor>
+  </link>
+
+  <!-- Define the joints -->
+  <joint name="hull_to_propeller" type="continuous">
+    <parent link="hull"/>
+    <child link="propeller"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="1"/>
+  </joint>
+
+  <joint name="hull_to_rudder" type="continuous">
+    <parent link="hull"/>
+    <child link="rudder"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="1"/>
+  </joint>
+
+</robot>

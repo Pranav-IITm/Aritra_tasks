@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot name="otter_catamaran">
+  <!-- Base link -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="1.5 0.5 0.1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Left hull link -->
+  <link name="left_hull_link">
+    <visual>
+      <geometry>
+        <box size="1.2 0.4 0.2"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Right hull link -->
+  <link name="right_hull_link">
+    <visual>
+      <geometry>
+        <box size="1.2 0.4 0.2"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Joint connecting left hull to base -->
+  <joint name="left_hull_to_base" type="fixed">
+    <origin xyz="0.75 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="left_hull_link"/>
+  </joint>
+
+  <!-- Joint connecting right hull to base -->
+  <joint name="right_hull_to_base" type="fixed">
+    <origin xyz="-0.75 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="right_hull_link"/>
+  </joint>
+
+  <!-- Depth camera sensor -->
+  <sensor type="depth" name="depth_camera_sensor">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <visualize>true</visualize> <!-- To visualize the sensor in RViz -->
+    <camera>
+      <horizontal_fov>1.047</horizontal_fov>
+      <vertical_fov>0.785</vertical_fov>
+      <depth_image>
+        <width>640</width>
+        <height>480</height>
+        <encoding>32FC1</encoding>
+      </depth_image>
+      <clip>
+        <near>0.1</near>
+        <far>10.0</far>
+      </clip>
+    </camera>
+  </sensor>
+</robot>
