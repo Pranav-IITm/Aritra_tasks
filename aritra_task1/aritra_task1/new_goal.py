@@ -14,12 +14,12 @@ class NEW_GOAL(Node):
         self.subscriber_1=self.create_subscription(String,'reached_target',self.next_goal,10)
         
     def next_goal(self,msg):
-         self.get_logger().info('Current Goal',msg.x,msg.y,'reached sucessfully')
-         msg=Pose()
-         msg.x=random.uniform(1,10)
-         msg.y=random.uniform(1,10)
-         self.get_logger().info('Next Goal is ',msg.x,msg.y)
-         self.publisher_1.publish(msg)
+         self.get_logger().info('Current Goal (%f, %f) reached successfully', msg.x, msg.y)
+         data=Pose()
+         data.x=random.uniform(2,10)
+         data.y=random.uniform(2,10)
+         self.get_logger().info('Next Goal is ',data.x,data.y)
+         self.publisher_1.publish(data)
 
 def main(args=None):
     rclpy.init(args=args)
