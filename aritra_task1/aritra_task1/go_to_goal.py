@@ -126,53 +126,86 @@ class GoToGoal(Node):
                 f_score[i][j+1]=10000
             self.c=min(f_score[i-1][j],f_score[i+1][j],f_score[i][j-1],f_score[i][j+1])
             if self.c==f_score[i-1][j]:
-                while self.current_pose.theta!=-1.57:
+                while self.current_pose.theta!=3.14:
                     speed.angular.z=1.0
                 while i!=i-1:
                     speed.linear.x=1.0
                     self.publisher_2.publish(speed)
                 i=i-1
             if self.c==f_score[i+1][j]:
-                while self.current_pose.theta!=1.57:
+                while self.current_pose.theta!=0.0:
                     speed.angular.z=1.0
                 while i!=i+1:
                     speed.linear.x=1.0
                     self.publisher_2.publish(speed)
                 i=i+1
             if self.c==f_score[i][j-1]:
-                while self.current_pose.theta!=3.14:
+                while self.current_pose.theta!=-1.57:
                     speed.angular.z=-1.0
                 while j!=j-1:
                     speed.linear.x=1.0
                     self.publisher_2.publish(speed)
                 j=j-1
             if self.c==f_score[i][j+1]:
-                while self.current_pose.theta!=0.0:
+                while self.current_pose.theta!=1.57:
                     speed.angular.z=1.0
                 while j!=j+1:
                     speed.linear.x=1.0
                     self.publisher_2.publish(speed)
                 j=j+1
-        while i==1 or j==1:
+        while i==1:
+            while self.grid[1][j+1]==self.obstacle_value:
+                f_score[1][j]=10000
             while self.grid[2][j]==self.obstacle_value:
                 f_score[2][j]=10000
+            while self.grid[1][j-1]==self.obstacle_value:
+                f_score[1][j-1]=10000
+            self.d=min(f_score[1][j+1],f_score[1][j-1],f_score[2][j])
+            if self.d==f_score[1][j+1]:
+                     while self.current_pose.theta!=1.57:
+                         speed.angular.z=1.0
+                     while j!=j+1:
+                         speed.linear.x=1.0
+                         self.publisher_2.publish(speed)
+            if self.d==f_score[1][j-1]:
+                     while self.current_pose.theta!=-1.57:
+                         speed.angular.z=1.0
+                     while j!=j-1:
+                         speed.linear.x=1.0
+                         self.publisher_2.publish(speed)
+            if self.d==f_score[2][j]:
+                     while self.current_pose.theta!=0.0:
+                         speed.angular.z=1.0
+                     while i!=2:
+                         speed.linear.x=1.0
+                         self.publisher_2.publish(speed)
+
+        while j==1:
+            while self.grid[i+1][1]==self.obstacle_value:
+                f_score[i][1]=10000
+            while self.grid[i-1][1]==self.obstacle_value:
+                f_score[i-1][1]=10000
             while self.grid[i][2]==self.obstacle_value:
                 f_score[i][2]=10000
-            self.d=min(f_score[2][j],f_score[i][2])
-            if self.d==f_score[2][j]:
-                while self.current_pose.theta!=1.57:
-                    speed.angular.z=1.0
-                while i!=2:
-                    speed.linear.x=1.0
-                    self.publisher_2.publish(speed)
-                i=2
-            if self.d==f_score[i][2]:
-                while self.current_pose.theta!=0.0:
-                    speed.angular.z=1.0
-                while j!=2:
-                    speed.linear.x=1.0
-                    self.publisher_2.publish(speed)
-                j=2
+            self.e=min(f_score[i+1][1],f_score[i-1][1],f_score[i][2])
+            if self.e==f_score[i+1][1]:
+                     while self.current_pose.theta!=0.0:
+                         speed.angular.z=1.0
+                     while i!=i+1:
+                         speed.linear.x=1.0
+                         self.publisher_2.publish(speed)
+            if self.e==f_score[i-1][1]:
+                     while self.current_pose.theta!=3.14:
+                         speed.angular.z=1.0
+                     while i!=i-1:
+                         speed.linear.x=1.0
+                         self.publisher_2.publish(speed)
+            if self.e==f_score[i][2]:
+                     while self.current_pose.theta!=-1.57:
+                         speed.angular.z=1.0
+                     while j!=2:
+                         speed.linear.x=1.0
+                         self.publisher_2.publish(speed)
         distance_5= (end_point.x-o)**2+(end_point.y-p)**2
         distance_6= (end_point.x-o+1)**2+(end_point.y-p)**2
         distance_7= (end_point.x-o)**2+(end_point.y-p+1)**2
